@@ -1,0 +1,12 @@
+# Ignore local env files but keep .env.example tracked
+.env
+
+# Backups and runtime artifacts
+backups/
+*.tar.gz
+
+# Editor/runtime
+.DS_Store
+.vscode/
+node_modules/
+*.log

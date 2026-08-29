@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  openwebui:
+    # Image tag is driven by .env via OPEN_WEBUI_VERSION. Edit .env before first run.
+    image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_VERSION}
+    restart: unless-stopped
+    volumes:
+      - open-webui-data:/app/backend/data
+    environment:
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      # Map DeepSeek values to common OpenAI-compatible env vars used by some WebUI providers.
+      # If Open WebUI supports OpenAI-compatible environment variables, these let the app use DeepSeek as the default provider.
+      - OPENAI_API_KEY=${DEEPSEEK_API_KEY}
+      - OPENAI_API_BASE=${DEEPSEEK_API_BASE}
+      - OPENAI_MODEL=${DEEPSEEK_MODEL}
+    ports:
+      # Bind the published port to localhost only for security.
+      - "127.0.0.1:${HOST_PORT}:8080"
+
+volumes:
+  open-webui-data:
